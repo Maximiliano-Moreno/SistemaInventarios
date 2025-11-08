@@ -1,0 +1,55 @@
+public class Ropa extends Producto {
+    private String talla;
+    private String color;
+    private String material;
+    private String temporada;
+    
+    public Ropa(String id, String nombre, String descripcion, double precio, 
+                int stock, String talla, String color, String material, String temporada) {
+        super(id, nombre, descripcion, precio, stock, "Ropa");
+        this.talla = talla;
+        this.color = color;
+        this.material = material;
+        this.temporada = temporada;
+    }
+    
+    @Override
+    public void mostrarDetalles() {
+        System.out.println("=== DETALLES ROPA ===");
+        mostrarInformacionBasica();
+        System.out.println("Talla: " + talla);
+        System.out.println("Color: " + color);
+        System.out.println("Material: " + material);
+        System.out.println("Temporada: " + temporada);
+    }
+    
+    @Override
+    public double calcularCostoAlmacenamiento() {
+        return precio * 0.08;
+    }
+    
+    @Override
+    public double calcularPrecioVenta() {
+        double precioVenta = precio * 1.4;
+        if (temporada.equals("Pasada")) {
+            precioVenta *= 0.7;
+        }
+        return precioVenta;
+    }
+    
+    @Override
+    public void aplicarDescuento(double porcentaje) {
+        if (porcentaje <= 30) {
+            double descuento = precio * (porcentaje / 100);
+            precio -= descuento;
+            System.out.println("Descuento aplicado: $" + descuento);
+        } else {
+            System.out.println("Descuento no permitido para ropa");
+        }
+    }
+    
+    @Override
+    public String generarCodigoBarras() {
+        return "ROP-" + id + "-" + talla + "-" + color.substring(0, 3).toUpperCase();
+    }
+} 
