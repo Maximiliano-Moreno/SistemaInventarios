@@ -1,0 +1,47 @@
+import java.time.LocalDate;
+
+public abstract class Producto implements Inventariable {
+    protected String id;
+    protected String nombre;
+    protected String descripcion;
+    protected double precio;
+    protected int stock;
+    protected String categoria;
+    protected LocalDate fechaRegistro;
+    
+    public Producto(String id, String nombre, String descripcion, double precio, int stock, String categoria) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.stock = stock;
+        this.categoria = categoria;
+        this.fechaRegistro = LocalDate.now();
+    }
+    
+    public void actualizarStock(int cantidad) {
+        this.stock += cantidad;
+        System.out.println("Stock actualizado: " + this.stock + " unidades");
+    }
+    
+    public boolean verificarDisponibilidad(int cantidad) {
+        return this.stock >= cantidad;
+    }
+    
+    public void mostrarInformacionBasica() {
+        System.out.println("ID: " + id);
+        System.out.println("Nombre: " + nombre);
+        System.out.println("Precio: $" + precio);
+        System.out.println("Stock: " + stock);
+        System.out.println("Categoría: " + categoria);
+    }
+    
+    public abstract void mostrarDetalles();
+    public abstract double calcularCostoAlmacenamiento();
+    
+    public String getId() { return id; }
+    public String getNombre() { return nombre; }
+    public double getPrecio() { return precio; }
+    public int getStock() { return stock; }
+    public void setPrecio(double precio) { this.precio = precio; }
+} 
