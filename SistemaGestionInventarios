@@ -1,0 +1,62 @@
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SistemaGestionInventarios {
+    private List<Producto> inventario;
+    
+    public SistemaGestionInventarios() {
+        this.inventario = new ArrayList<>();
+        inicializarInventario();
+    }
+    
+    private void inicializarInventario() {
+        // Crear productos de diferentes tipos
+        inventario.add(new Electronico("E001", "Smartphone", "Teléfono inteligente", 500.0, 10, 
+                                     "Samsung", "Galaxy S23", 24, 0.015));
+        
+        inventario.add(new Alimento("A001", "Leche Entera", "Leche pasteurizada", 2.5, 50,
+                                  LocalDate.of(2024, 12, 31), "Lácteo", true, 1.0));
+        
+        inventario.add(new Ropa("R001", "Camisa Casual", "Camisa de algodón", 25.0, 20,
+                              "M", "Azul", "Algodón", "Actual"));
+        
+        System.out.println("Inventario inicializado con " + inventario.size() + " productos");
+    }
+    
+    public void mostrarTodosLosProductos() {
+        System.out.println("=== INVENTARIO COMPLETO ===");
+        for (Producto producto : inventario) {
+            producto.mostrarDetalles();
+            System.out.println("Precio de venta: $" + producto.calcularPrecioVenta());
+            System.out.println("Código barras: " + producto.generarCodigoBarras());
+            System.out.println("Costo almacenamiento: $" + producto.calcularCostoAlmacenamiento());
+            System.out.println("----------------------------------------");
+        }
+    }
+    
+    public void aplicarDescuentoGeneral(double porcentaje) {
+        System.out.println("\n=== APLICANDO DESCUENTO DEL " + porcentaje + "% ===");
+        for (Producto producto : inventario) {
+            System.out.println("\nProducto: " + producto.getNombre());
+            producto.aplicarDescuento(porcentaje);
+        }
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("=== SISTEMA DE GESTIÓN DE INVENTARIOS ===");
+        SistemaGestionInventarios sistema = new SistemaGestionInventarios();
+        
+        // Mostrar inventario completo
+        sistema.mostrarTodosLosProductos();
+        
+        // Aplicar descuentos
+        sistema.aplicarDescuentoGeneral(15);
+        
+        // Mostrar inventario actualizado
+        System.out.println("\n=== INVENTARIO ACTUALIZADO ===");
+        sistema.mostrarTodosLosProductos();
+        
+        System.out.println("=== PROGRAMA FINALIZADO ===");
+    }
+} 
