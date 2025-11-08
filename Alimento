@@ -1,0 +1,65 @@
+import java.time.LocalDate;
+
+public class Alimento extends Producto {
+    private LocalDate fechaCaducidad;
+    private String tipoAlimento;
+    private boolean perecedero;
+    private double peso;
+    
+    public Alimento(String id, String nombre, String descripcion, double precio, 
+                   int stock, LocalDate fechaCaducidad, String tipoAlimento, boolean perecedero, double peso) {
+        super(id, nombre, descripcion, precio, stock, "Alimento");
+        this.fechaCaducidad = fechaCaducidad;
+        this.tipoAlimento = tipoAlimento;
+        this.perecedero = perecedero;
+        this.peso = peso;
+    }
+    
+    @Override
+    public void mostrarDetalles() {
+        System.out.println("=== DETALLES ALIMENTO ===");
+        mostrarInformacionBasica();
+        System.out.println("Fecha Caducidad: " + fechaCaducidad);
+        System.out.println("Tipo: " + tipoAlimento);
+        System.out.println("Perecedero: " + (perecedero ? "Sí" : "No"));
+        System.out.println("Peso: " + peso + " kg");
+    }
+    
+    @Override
+    public double calcularCostoAlmacenamiento() {
+        double costoBase = precio * 0.10;
+        if (perecedero) {
+            costoBase += 25;
+        }
+        return costoBase;
+    }
+    
+    @Override
+    public double calcularPrecioVenta() {
+        double precioVenta = precio * 1.25;
+        if (estaProximoCaducar()) {
+            precioVenta *= 0.8;
+        }
+        return precioVenta;
+    }
+    
+    @Override
+    public void aplicarDescuento(double porcentaje) {
+        if (porcentaje <= 40) {
+            double descuento = precio * (porcentaje / 100);
+            precio -= descuento;
+            System.out.println("Descuento aplicado: $" + descuento);
+        } else {
+            System.out.println("Descuento excesivo para alimentos");
+        }
+    }
+    
+    @Override
+    public String generarCodigoBarras() {
+        return "ALI-" + id + "-" + tipoAlimento.substring(0, 3).toUpperCase();
+    }
+    
+    public boolean estaProximoCaducar() {
+        return LocalDate.now().plusDays(7).isAfter(fechaCaducidad);
+    }
+} 
