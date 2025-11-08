@@ -1,0 +1,51 @@
+public class Electronico extends Producto {
+    private String marca;
+    private String modelo;
+    private int garantiaMeses;
+    private double consumoEnergia;
+    
+    public Electronico(String id, String nombre, String descripcion, double precio, 
+                      int stock, String marca, String modelo, int garantiaMeses, double consumoEnergia) {
+        super(id, nombre, descripcion, precio, stock, "Electrónico");
+        this.marca = marca;
+        this.modelo = modelo;
+        this.garantiaMeses = garantiaMeses;
+        this.consumoEnergia = consumoEnergia;
+    }
+    
+    @Override
+    public void mostrarDetalles() {
+        System.out.println("=== DETALLES ELECTRÓNICO ===");
+        mostrarInformacionBasica();
+        System.out.println("Marca: " + marca);
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Garantía: " + garantiaMeses + " meses");
+        System.out.println("Consumo: " + consumoEnergia + " kWh");
+    }
+    
+    @Override
+    public double calcularCostoAlmacenamiento() {
+        return precio * 0.15 + 50;
+    }
+    
+    @Override
+    public double calcularPrecioVenta() {
+        return precio * 1.3;
+    }
+    
+    @Override
+    public void aplicarDescuento(double porcentaje) {
+        if (porcentaje <= 20) {
+            double descuento = precio * (porcentaje / 100);
+            precio -= descuento;
+            System.out.println("Descuento aplicado: $" + descuento);
+        } else {
+            System.out.println("Descuento no permitido para productos electrónicos");
+        }
+    }
+    
+    @Override
+    public String generarCodigoBarras() {
+        return "ELE-" + id + "-" + marca.substring(0, 3).toUpperCase();
+    }
+} 
